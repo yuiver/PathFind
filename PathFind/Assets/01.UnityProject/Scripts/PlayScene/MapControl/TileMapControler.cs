@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -8,26 +8,23 @@ public class TileMapControler : MonoBehaviour
     protected string tileMapObjName = default;
 
     protected MapBoard mapControler = default;
-    [SerializeField]
     protected Tilemap tileMap = default;
-    [SerializeField]
     protected List<GameObject> allTileObjs = default;
 
-    //! Awake Å¸ÀÓ¿¡ ÃÊ±âÈ­ ÇÒ ³»¿ëÀ» »ó¼Ó¹ŞÀº Å¬·¡½ºº°·Î ÀçÁ¤ÀÇÇÑ´Ù.
-
+    //! Awake íƒ€ì„ì— ì´ˆê¸°í™” í•  ë‚´ìš©ì„ ìƒì†ë°›ì€ í´ë˜ìŠ¤ë³„ë¡œ ì¬ì •ì˜í•œë‹¤.
     public virtual void InitAwake(MapBoard mapControler_)
-    { 
+    {
         mapControler = mapControler_;
         tileMap = gameObject.FindChildComponent<Tilemap>(tileMapObjName);
 
-        //Á÷»ç°¢Çü ÇüÅÂ·Î ÃÊ±âÈ­ µÈ Å¸ÀÏÀ» Ä³½ÌÇØ¼­ °¡Áö°í ÀÖ´Â´Ù.
+        // ì§ì‚¬ê°í˜• í˜•íƒœë¡œ ì´ˆê¸°í™” ëœ íƒ€ì¼ì„ ìºì‹±í•´ì„œ ê°€ì§€ê³  ìˆëŠ”ë‹¤.
         allTileObjs = tileMap.gameObject.GetChildrenObjs();
-        if (allTileObjs.IsValid())
+        if(allTileObjs.IsValid())
         {
-            allTileObjs.Sort(GFunc.CompareTileObjecToLocalpos2D);
+            allTileObjs.Sort(GFunc.CompareTileObjToLocalPos2D);
         }
         else { allTileObjs = new List<GameObject>(); }
 
-        /*Todo*/
-    }//InitAwake()
+        /* Todo */
+    }       // InitAwake()
 }       // class TileMapControler

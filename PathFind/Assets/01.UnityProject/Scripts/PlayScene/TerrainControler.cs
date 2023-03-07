@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,17 +7,80 @@ public class TerrainControler : MonoBehaviour
     private const string TILE_FRONT_RENDERER_OBJ_NAME = "FrontRenderer";
 
     private TerrainType terrainType = TerrainType.NONE;
+    private MapBoard mapControler = default;
 
     public bool IsPassable { get; private set; } = false;
     public int TileIdx1D { get; private set; } = -1;
     public Vector2Int TileIdx2D { get; private set; } = default;
 
-    #region ±æÃ£±â ¾Ë°í¸®ÁòÀ» À§ÇÑ º¯¼ö
+    #region ê¸¸ì°¾ê¸° ì•Œê³ ë¦¬ì¦˜ì„ ìœ„í•œ ë³€ìˆ˜
     private SpriteRenderer frontRenderer = default;
     private Color defaultColor = default;
     private Color selectedColor = default;
     private Color searchColor = default;
     private Color inactiveColor = default;
 
-    #endregion      //±æÃ£±â ¾Ë°í¸®ÁòÀ» À§ÇÑ º¯¼ö
-}       //Class TerrainControler
+    #endregion      // ê¸¸ì°¾ê¸° ì•Œê³ ë¦¬ì¦˜ì„ ìœ„í•œ ë³€ìˆ˜
+
+    private void Awake()
+    {
+        frontRenderer = gameObject.FindChildComponent<SpriteRenderer>(
+            TILE_FRONT_RENDERER_OBJ_NAME);
+        GFunc.Assert(frontRenderer != null || frontRenderer != default);
+
+        defaultColor = new Color(1f, 1f, 1f, 1f);
+        selectedColor = new Color(236f / 255f, 130f / 255f, 20f / 255f, 1f);
+        searchColor = new Color(0f, 192f / 255f, 0f, 1f);
+        inactiveColor = new Color(128f / 255f, 128f / 255f, 128f / 255f, 1f);
+    }       // Awake()
+
+    //! ì§€í˜•ì •ë³´ë¥¼ ì´ˆê¸° ì„¤ì •í•œë‹¤.
+    public void SetupTerrain(MapBoard mapControler_, 
+        TerrainType type_, int tileIdx1D_)
+    {
+        terrainType = type_;
+        mapControler = mapControler_;
+        TileIdx1D = tileIdx1D_;
+        TileIdx2D = mapControler.GetTileIdx2D(TileIdx1D);
+
+        string prefabName = string.Empty;
+        switch(type_)
+        {
+            case TerrainType.PLAIN_PASS:
+                prefabName = RDefine.TERRAIN_PREF_PLAIN;
+                IsPassable = true;
+                break;
+            case TerrainType.OCEAN_N_PASS:
+                prefabName = RDefine.TERRAIN_PREF_OCEAN;
+                IsPassable = false;
+                break;
+            default:
+                prefabName = "Tile_Default";
+                IsPassable = false;
+                break;
+        }       // switch: íƒ€ì¼ì˜ íƒ€ì…ë³„ë¡œ ë‹¤ë¥¸ ì„¤ì •ì„ í•œë‹¤.
+
+        this.name = string.Format("{0}_{1}", prefabName, TileIdx1D);
+    }       // SetupTerrain()
+
+    //! ì§€í˜•ì˜ Front ìƒ‰ìƒì„ ë³€ê²½í•œë‹¤.
+    public void SetTileActiveColor(RDefine.TileStatusColor tileStatus)
+    {
+        switch(tileStatus)
+        {
+            case RDefine.TileStatusColor.SELECTED:
+                frontRenderer.color = selectedColor;
+                break;
+            case RDefine.TileStatusColor.SEARCH:
+                frontRenderer.color = searchColor;
+                break;
+            case RDefine.TileStatusColor.INACTIVE:
+                frontRenderer.color = inactiveColor;
+                break;
+            default:
+                frontRenderer.color = defaultColor;
+                break;
+        }
+    }       // SetTileActiveColor()
+
+}       // class TerrainControler

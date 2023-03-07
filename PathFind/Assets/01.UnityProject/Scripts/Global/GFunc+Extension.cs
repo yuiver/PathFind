@@ -1,31 +1,30 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public static partial class GFunc
 {
-    //! Dictionary¿¡ ¿ÀºêÁ§Æ® ÇÁ¸®ÆÕÀ» Ä³½ÌÇÏ´Â ÇÔ¼ö
+    //! ë”•ì…”ë„ˆë¦¬ì— ì˜¤ë¸Œì íŠ¸ í”„ë¦¬íŒ¹ì„ ìºì‹±í•˜ëŠ” í•¨ìˆ˜
     public static void AddObjs(
         this Dictionary<string, GameObject> dict_, GameObject[] prefabs_)
     {
-        foreach (var prefab_ in prefabs_)
-        { 
+        foreach(var prefab_ in prefabs_)
+        {
             dict_.Add(prefab_.name, prefab_);
         }
-    }       //AddObjs()
+    }       // AddObjs()
 
-    //! ¸®½ºÆ®¸¦ ¼¯´Â ÇÔ¼ö
+    //! ë¦¬ìŠ¤íŠ¸ë¥¼ ì„ëŠ” í•¨ìˆ˜
     public static void Shuffle<T>(this List<T> targetList, int shuffleCnt = 0)
     {
-        if (shuffleCnt.Equals(0)) { shuffleCnt = (int)(targetList.Count * 2.0f);  }
+        if(shuffleCnt.Equals(0)) { shuffleCnt = (int)(targetList.Count * 2.0f); }
 
         int sourIdx = 0;
         int destIdx = 0;
         T tempVar = default(T);
 
-        for (int i = 0; i < shuffleCnt; i++)
-        { 
+        for(int i=0; i < shuffleCnt; i++)
+        {
             sourIdx = Random.Range(0, targetList.Count);
             destIdx = Random.Range(0, targetList.Count);
 
@@ -33,27 +32,27 @@ public static partial class GFunc
             targetList[sourIdx] = targetList[destIdx];
             targetList[destIdx] = tempVar;
         }
-    }       //Shuffle()
+    }       // Shuffle()
 
-    //! ¸®½ºÆ®ÀÇ element ¸¦ ´Ù¸¥ °ª°ú SwapÇÏ´Â ÇÔ¼ö
-    public static void Swap<T>(this List<T> targetList,
+    //! ë¦¬ìŠ¤íŠ¸ì˜ element ë¥¼ ë‹¤ë¥¸ ê°’ê³¼ Swap í•˜ëŠ” í•¨ìˆ˜
+    public static void Swap<T>(this List<T> targetList, 
         ref T swapValue, int swapIdx)
-    { 
+    {
         T tempValue = targetList[swapIdx];
         targetList[swapIdx] = swapValue;
         swapValue = tempValue;
     }       // Swap()
 
-    //! int ÀÇ °ªÀÌ ¹üÀ§ ¾È¿¡ ¼ÓÇØ ÀÖ´ÂÁö °Ë»çÇÏ´Â ÇÔ¼ö
+    //! int ì˜ ê°’ì´ ë²”ìœ„ ì•ˆì— ì†í•´ ìˆëŠ”ì§€ ê²€ì‚¬í•˜ëŠ” í•¨ìˆ˜
     public static bool IsInRange(this int targetValue, int minInclude, int maxExclude)
     {
         return (minInclude <= targetValue && targetValue < maxExclude);
-    }       //IsInRange()
+    }       // IsInRange()
 
-    //! float ÀÇ °ªÀÌ °°ÀºÁö ºñ±³ÇÏ´Â ÇÔ¼ö
+    //! float ì˜ ê°’ì´ ê°™ì€ì§€ ë¹„êµí•˜ëŠ” í•¨ìˆ˜
     public static bool IsEquals(this float targetValue, float compareValue)
-    { 
+    {
         bool isEquals = Mathf.Approximately(targetValue, compareValue);
         return isEquals;
-    }   //IsEquals()
+    }       // IsEquals()
 }

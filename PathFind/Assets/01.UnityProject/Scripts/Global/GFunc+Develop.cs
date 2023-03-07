@@ -1,7 +1,5 @@
-using Mono.Cecil;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public static partial class GFunc
@@ -57,30 +55,30 @@ public static partial class GFunc
         Component convert_ = (Component)(component_ as Component);
         bool isInvalid = convert_ == null || convert_ == default;
         return !isInvalid;
-    }
+    }       // IsValid()
 
     //! 오브젝트의 유효성을 검사한다.
     public static bool IsValid(this GameObject obj_)
     {
-        bool isValid = (obj_ == null || obj_ == default);
-        return !isValid;
-    }       //IsValid()
+        bool isInvalid = (obj_ == null || obj_ == default);
+        return !isInvalid;
+    }       // IsValid()
 
     //! 리스트의 유효성을 검사한다.
     public static bool IsValid<T>(this List<T> list_)
     {
-        bool isValid = (list_ == null || list_ == default || list_.Count < 1);
-        return !isValid;
+        bool isInvalid = (list_ == null || list_ == default || list_.Count < 1);
+        return !isInvalid;
     }       // IsValid()
 
     //! 리스트의 유효성을 검사한다.
     public static bool IsValid<T>(this List<T> list_, int index_)
     {
-        bool isValid = (list_.IsValid() == false) ||
+        bool isInvalid = (list_.IsValid() == false) ||
             (index_ < 0 || list_.Count <= index_);
-        return !isValid;
-
+        return !isInvalid;
     }       // IsValid()
+
     #endregion      // Vaild Func
 
     //! 리스트를 생성해서 리턴하는 함수
@@ -90,27 +88,27 @@ public static partial class GFunc
      * @return List<T> list_ : 연속된 숫자로 생성한 리스트
      */
     public static List<int> CreateList(int listLength, int startIndex = 0)
-    { 
+    {
         List<int> list_ = new List<int>();
-        for (int i = 0; i < listLength; i++)
+        for(int i=0; i < listLength; i++)
         {
             list_.Add(startIndex + i);
         }
 
         return list_;
     }       // CreateList()
-            //! 두 변수의 값을 Swap 하는 함수
-    public static void Swap<T>(ref T sourValue,ref T destValue)
+
+    //! 두 변수의 값을 Swap 하는 함수
+    public static void Swap<T>(ref T sourValue, ref T destValue)
     {
         T tempValue = sourValue;
         sourValue = destValue;
         destValue = tempValue;
-    }       //Swap()
+    }       // Swap()
 
-
-//! 두 변수의 값을 Swap 하는 함수
-    //public static void Swap<T>( (T sourValue,T destValue) SwapValue)
-    //{
-    //    (T sourValue, T destValue) = (SwapValue.destValue, SwapValue.sourValue);
-    //}       //Swap
+    //! 두 변수의 값을 Swap 하는 함수
+    public static void Swap<T>( (T sourValue, T destValue) swapValue)
+    {
+        (T sourValue, T destValue) = (swapValue.destValue, swapValue.sourValue);
+    }       // Swap()
 }
